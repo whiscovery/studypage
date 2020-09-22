@@ -9,6 +9,9 @@
     <v-card>
       <v-card-title>로그인</v-card-title>
       <v-divider/>
+      <v-card-action>
+        <router-link to="/login"><v-btn dark block>Login with email</v-btn></router-link>
+      </v-card-action>
       <v-card-actions>
         <v-btn color="red" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon> 구글로 로그인</v-btn>
       </v-card-actions>
