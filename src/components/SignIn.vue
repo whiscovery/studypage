@@ -15,6 +15,9 @@
       <v-card-actions>
         <v-btn color="red" dark @click="signInWithGoogle" block><v-icon left>mdi-google</v-icon> 구글로 로그인</v-btn>
       </v-card-actions>
+      <v-card-actions>
+        <v-btn color="red" dark @click="signInWithFacebook" block><v-icon left>mdi-google</v-icon> 페이스북으로 로그인</v-btn>
+      </v-card-actions>
     </v-card>
   </v-menu>
   <v-menu offset-y v-else>
@@ -37,7 +40,9 @@
 export default {
   data () {
     return {
-      loading: false
+      loading: false,
+      email: '',
+      password: ''
     }
   },
   methods: {
@@ -50,13 +55,29 @@ export default {
         this.$store.commit('setFireUser', sn.user)
       } finally {
         this.loading = false
+        this.$router.replace('Home')
       }
     },
     signOut () {
       this.$firebase.auth().signOut()
+      alert('로그아웃')
+      this.$router.replace('login')
     },
     signInWithFacebook () {
-      throw Error('나중에 만들께요')
+      var provider = new this.$firebase.auth.FacebookAuthProvider()
+      provider.addScope('pubic_profile')
+      provider.setCustomParameters({
+        display: 'popup'
+      })
+      this.$firebase.auth().signInWithPopup(provider).then((result) => {
+        var token = result.credential.accessToken
+        var user = result.user
+        console.log('token:' + token)
+        console.log('user :' + user)
+        this.$router.replace('home')
+      }).catch((err) => {
+        alert(err.message)
+      })
     }
   }
 }

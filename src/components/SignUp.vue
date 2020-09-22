@@ -118,6 +118,7 @@ export default {
       this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         function (user) {
           alert('회원 가입 완료')
+          this.$router.replace('Home')
         },
         function (err) {
           alert('에러' + err.message)
